@@ -1,0 +1,11 @@
+class Solution:
+    def distributeCandies(self, candyType: List[int]) -> int:
+        length = len(candyType)
+        max_possible = length//2
+        diff_candy = set()
+        for i in range(len(candyType)):
+            diff_candy.add(candyType[i])
+        
+        if len(diff_candy) < max_possible:
+            return len(diff_candy)
+        return max_possible
