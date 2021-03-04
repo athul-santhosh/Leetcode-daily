@@ -1,0 +1,98 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, head1: ListNode, head2: ListNode) -> ListNode:
+        """
+        
+        head1
+         !
+         6 7 8 9       
+                        1 2 3 4 5 6
+         !
+     100-11 12 13 14 
+        head2
+        
+        
+        traverse through the smaller linked list ,
+        put all the node address in the seen , as we traverse,
+        
+        loop through the second linked list if the node.next is present in seen 
+        return node.next ,
+        else return Null
+        
+        O(n) , where n is the length of the larger list 
+        O(m) , where m is the length of the smaller list
+        
+        
+        find the length of the smaller linked list  store it  , let it be k
+        
+        iterate through the larger linked list 
+        
+        two pointers, fast and slow 
+        fast would be moving and slow will start moving after fast has covered k steps
+        
+        
+        once we figure slow,
+        
+        traverse the list together and when both slow .next and head1.next points to same node then return the slow.next else , return null
+        
+        Time O(n) : where n is the length of the larger linked list 
+        Space O(1) 
+    
+        
+    
+        """
+        
+        # base check
+        
+        if not head1 or not head2:
+            return None
+        
+        len1 = self.getLenght(head1)
+        len2 = self.getLenght(head2)
+        
+        
+        diff = abs(len1 - len2)
+        
+        if len1 > len2:
+            new_head = self.truncate(head1,diff)
+            return self.intersection(new_head,head2)
+        elif len1 < len2:
+            new_head = self.truncate(head2,diff)
+            return self.intersection(new_head,head1)
+        else:
+            return self.intersection(head1,head2)
+    
+            
+        
+    def getLenght(self,head):
+        if not head: return None
+        count = 1
+        while head.next:
+            head = head.next 
+            count += 1
+        return count 
+    
+    def truncate(self,head,diff):
+        count = 0
+        slow = head
+        while head:
+            if count == diff:
+                return head
+            count += 1
+            head = head.next
+        return None
+            
+            
+    def intersection(self,head1,head2):
+        while head1:
+            if head1 == head2:
+                return head1
+            head1 = head1.next
+            head2 = head2.next
+            
+        return None
